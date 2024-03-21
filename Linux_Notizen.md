@@ -1,9 +1,8 @@
 # Linux Notizen
 
 Dieses Repository enthält meine persönlichen Notizen zur Administration von
-Linux. Es besteht aus mehreren Markdown Dateien, die verschiedene Themen und
-Befehle abdecken. Diese Notizen sind nicht als vollständige Anleitung oder
-Tutorial gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
+Linux. Diese Notizen sind nicht als vollständige Anleitung oder Tutorial 
+gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
 
 ## Inhaltsverzeichnis
 
