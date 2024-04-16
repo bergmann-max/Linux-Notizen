@@ -16,7 +16,9 @@ Tutorial gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
 * [Netzwerk](#netzwerk)
 * [Sicherheit](#sicherheit)
 * [SSH](#ssh)
+* [SSL](#ssl)
 * [SWAP](#swap)
+* [top](#top)
 * [Ubuntu](#ubuntu)
 * [User und groups](#user-und-groups)
 
@@ -35,6 +37,7 @@ Tutorial gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
 |     +----------- Stunde (0 - 23)
 +------------- Minute (0 - 59)
 ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 ## Dateien
@@ -43,6 +46,7 @@ Tutorial gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
 ```
 $ find . -maxdepth 1 -type d | while read -r dir; do printf "%s:\t" "$dir"; find "$dir" -type f | wc -l; done
 ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 ## find
@@ -69,6 +73,7 @@ $ find /path/to/dir -type f -exec <command> {} +
 ```
 $ find /path/to/dir -type d -exec chmod g-x {} +
 ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 ## GnuPG
@@ -154,6 +159,7 @@ $ gpg --delete-key <Schlüssel ID>
 ```
 $ gpg --delete-secret-key <Schlüssel ID>
 ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 ## Laufwerke
@@ -173,6 +179,7 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
     /dev/sdb1       /home/user/disk ext4    defaults        0       0
    ```
 1. ```sudo mount -a```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 
@@ -204,10 +211,22 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
 1. ```
    $ sudo resize2fs /dev/vg0/lv-var
    ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 
 ## Netzwerk
+
+### Netwrok Interface Einschalten, Ausschalten und Neustarten
+- ```
+  $ sudo /etc/init.d/networking start
+  ```
+- ```
+  $ sudo /etc/init.d/networking stop
+  ```
+- ```
+  $ sudo /etc/init.d/networking restart
+  ```
 
 ### Ein bestimmtes network interface ein- und ausschalten
 - ```
@@ -216,6 +235,7 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
 - ```
   $ sudo ip link set enp0s31f6 down
   ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 
@@ -234,6 +254,7 @@ $ sudo apt install lynis
 ```
 $ sudo lynis audit system --auditor "<dein Name>" --pentest --forensics
 ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 
@@ -264,8 +285,17 @@ $ ssh-keygen -p
 ```
 $ ssh-keygen -p -f ~/.ssh/id_rsa
 ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
+## SSL
+
+### pfx zu pem konvertieren
+```
+$ openssl pkcs12 -in file.pfx -out file.pem -nodes
+```
+
+*[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 ## SWAP
 
@@ -280,6 +310,24 @@ $ sudo swapon --show
 ```
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
+## top
+
+### Ein Signal an einen Prozess senden (KILL ist default, 9 für hartnäckige Fälle)
+```[K]```
+
+### Nur Prozesse eines user anzeigen
+```[U]```
+
+### Sortierung nach Speichervverbrauch
+```[SHIFT]``` + ```[M]```
+
+### Sortierung nach CPU-Last
+```[SHIFT]``` + ```[P]```
+
+### Aktuelle Optionsauswahl in eine Konfigurationsdatei (```~/.toprc```) schreiben
+```[SHIFT]``` + ```[w]```
+
+*[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 ## Ubuntu
 
@@ -298,10 +346,25 @@ $ sudo swapon --show
 1.  ```
     $ sudo do-release-upgrade 
     ```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 
 ## User und groups
+
+### Zeige alle alle angemdeldeten user
+```
+$ who
+```
+oder
+```
+$ w
+```
+
+### Passwortstatus für ein Konto prüfen
+```
+$ sudo passwd -S <user>
+```
 
 ### useradd vs adduser
 Der Befehl ```useradd``` ist eine niederigere Stufe und auf allen Linux-
@@ -309,6 +372,11 @@ Distributionen verfügbar. Er fordert zusätzliche Parameter, um das Konto
 vollständig einzurichten. Der Befehl ```adduser``` ist eine höhere Stufe und
 nicht auf allen Linux-Distributionen verfügbar. Mit diesem Befehl wird dem
 System ein Benutzer mit Standarteinstellungen hinzugefügt.
+
+### user einer group hinzufügen z. B. sudo
+```
+$ sudo usermod -aG sudo <user>
+```
 
 ### User ohne login erstellen
 ```
@@ -326,8 +394,39 @@ $ sudo adduser <user> --disable-login
 $ sudo usermod <user> -s /sbin/nologin
 ```
 
-### Systemuser ohne home -Verzeichnis
+### Systemuser ohne home-Verzeichnis
 ```
 $ sudo adduser --system --no-create-home <user>
 ```
+
+### home-Verzeichnis eines user ändern
+```
+$ sudo usermod -d /NewHome/user <user>
+```
+
+### user löschen
+```
+$ sudo usermod -d /NewHome/user <user>
+```
+
+### user mit home-Verzeichnis löschen
+```
+$ sudo deluser --remove-home <user>
+```
+
+### Alle Dateien eines user löschen
+```
+$ sudo deluser --remove-all-files <user>
+```
+
+### Lock Account
+```
+$ sudo passwd -l <user>
+```
+
+### Unlock Account
+```
+$ sudo passwd -u <user>
+```
+
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
