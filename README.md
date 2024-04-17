@@ -1,9 +1,9 @@
 # Linux Notizen
 
-Dieses Repository enthält meine persönlichen Notizen zur Administration von
-Linux. Es besteht aus mehreren Markdown Dateien, die verschiedene Themen und
-Befehle abdecken. Diese Notizen sind nicht als vollständige Anleitung oder
-Tutorial gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
+> **Hinweis** \
+> Dieses Repository enthält meine persönlichen Notizen zur Administration von
+> Linux. Diese Notizen sind nicht als vollständige Anleitung oder Tutorial 
+> gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
 
 ## Inhaltsverzeichnis
 
@@ -21,7 +21,6 @@ Tutorial gedacht, sondern als Referenz und Gedächtnisstütze für mich selbst.
 * [top](#top)
 * [Ubuntu](#ubuntu)
 * [User und groups](#user-und-groups)
-
 
 ## cron
 
@@ -52,15 +51,18 @@ $ find . -maxdepth 1 -type d | while read -r dir; do printf "%s:\t" "$dir"; find
 ## find
 
 ### Suchen einer Datei nach Namen
+
 ```
 $ find /path/to/dir -type -f -name file-to-search
 ```
 
 ### Ausführen eines Befehls auf alle Verzeichnisse
+
 ```
 $ find /path/to/dir -type d -exec <command> {} +
 ```
 #### Beispiel
+
 ```
 $ find /path/to/dir -type d -exec chmod 755 {} +
 ```
@@ -70,6 +72,7 @@ $ find /path/to/dir -type d -exec chmod 755 {} +
 $ find /path/to/dir -type f -exec <command> {} +
 ```
 #### Beispiel
+
 ```
 $ find /path/to/dir -type d -exec chmod g-x {} +
 ```
@@ -79,12 +82,15 @@ $ find /path/to/dir -type d -exec chmod g-x {} +
 ## GnuPG
 
 ### Schlüsselpar erstellen
+
 ```
 $ gpg --full-generate-key
 ```
 
 ### Anzeigen der Schlüssel
+
 #### Öffentliche Schlüssel
+
 ```
 $ gpg --list-public-keys
 ```
@@ -92,7 +98,9 @@ oder
 ```
 $ gpg --list-public-keys --keyid-format=long
 ```
+
 #### Privater Schlüssel
+
 ```
 $ gpg --list-secret-keys
 ```
@@ -102,6 +110,7 @@ $ gpg --list-secret-keys --keyid-format=long
 ```
 
 ### Schlüssel exportieren (ASCII)
+
 Die Option ```--armor``` sorgt dafür, dass der Schlüssel im ASCII-Format
 exportiert wird. Wenn man die Option weg lässt, erhält man die Schlüssel im
 Binärformat. Die Ausgabe im ASCII-Armor-Format benötigt 33 Prozent mehr
@@ -112,15 +121,19 @@ verschlüsselt auf der Festplatte abgelegt werden, ist das Binärformat gerade
 bei großen Dateien vorzuziehen.
  
 #### Öffentliche Schlüssel
+
 ```
 $ gpg --output public.pgp --armor --export <Schlüssel ID>
 ```
+
 #### Privater Schlüssel
+
 ```
 $ gpg --output public.pgp --armor --export-secret-key <Schlüssel ID>
 ```
 
 ### Schlüssel importieren
+
 1. ```
    $ gpg --import <Schlüsseldatei>
    ```
@@ -135,11 +148,13 @@ $ gpg --output public.pgp --armor --export-secret-key <Schlüssel ID>
    ```
 
 ### Verschlüsselungen von Dateien
+
 ```
 $ gpg --encrypt --armor --recipient <id, mail oder 'name'> <Datei>
 ```
 
 ### Entschlüsseln
+
 ```
 $ gpg --decrypt <Datei>
 ```
@@ -151,11 +166,14 @@ $ gpg --decrypt --output <Ausgabedatei> <cerschlüsselte Datei>
 ```
 
 ### Schlüssel löschen
+
 #### Öffentlicher Schlüssel
+
 ```
 $ gpg --delete-key <Schlüssel ID>
 ```
 #### Privater Schlüssel
+
 ```
 $ gpg --delete-secret-key <Schlüssel ID>
 ```
@@ -165,20 +183,26 @@ $ gpg --delete-secret-key <Schlüssel ID>
 ## Laufwerke
 
 ### Laufwerke einbinden
+
 #### Temporär
+
 ```
 $ sudo mount -type <filesystem> <Quelle> <Verzeichnis> 
 ```
+
 ##### Beispiel
+
 ```
 $ sudo mount -type ext4 /dev/sdb1 /mnt/data 
 ```
 #### Dauerhaft
-1. **```/etc/fstab```**
+
+1. */etc/fstab*
    ```
     /dev/sdb1       /home/user/disk ext4    defaults        0       0
    ```
 1. ```sudo mount -a```
+
 
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
@@ -214,6 +238,29 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
 
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
+### Samba Share mounten
+
+1. ```
+   $ sudo apt install keyutils cifs-utils
+   ```
+1. Es ist zwar möglich, die Anmeldedaten für Samba Share in die Datei
+   ```/etc/fstab``` einzutragen, aber es ist besser, die Zugangsdaten für das
+   Samba Share in einer separaten Datei (z. B. ```/home/user1/.smb``` oder 
+   ```/root/.smb```) zu speichern und die Zugriffsrechte auf das Notwendigste zu
+   beschränken.
+   ```
+   user=user1
+   password=P4zzw0rd
+   domain=myDomain
+   ```
+1. */etc/fstab*
+   ```
+   //windows/server  /path/to/mountponit     cifs    uid=0,credentials=/root.smb,iocharset=utf8,vers=3.0,noperm 0 0
+   ```
+1. ```
+   $ sudo mount -a
+   ```
+*[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
 ## Netzwerk
 
@@ -229,6 +276,7 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
   ```
 
 ### Ein bestimmtes network interface ein- und ausschalten
+
 - ```
   $ sudo ip link set enp0s31f6 up
   ```
@@ -246,11 +294,13 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
 Mit Lynis kann man ein IT-Sicherheitsaudit durchführen.
 
 #### Installation
+
 ```
 $ sudo apt install lynis
 ```
 
 #### Audit durchführen
+
 ```
 $ sudo lynis audit system --auditor "<dein Name>" --pentest --forensics
 ```
@@ -261,6 +311,7 @@ $ sudo lynis audit system --auditor "<dein Name>" --pentest --forensics
 ## SSH
 
 ### Schlüsselpaar erzeugen
+
 ```
 $ ssh-keygen -t ed25519 -a 100
 ```
@@ -270,6 +321,7 @@ $ ssh-keygen -t -b 4096 -a 100
 ```
 
 ### Öffentlichen Schlüssel auf Server kopieren
+
 ```
 ssh-copy-id -i ~/.ssh/id_rsa.pub user@host
 ```
@@ -367,6 +419,7 @@ $ sudo passwd -S <user>
 ```
 
 ### useradd vs adduser
+
 Der Befehl ```useradd``` ist eine niederigere Stufe und auf allen Linux-
 Distributionen verfügbar. Er fordert zusätzliche Parameter, um das Konto
 vollständig einzurichten. Der Befehl ```adduser``` ist eine höhere Stufe und
@@ -379,6 +432,7 @@ $ sudo usermod -aG sudo <user>
 ```
 
 ### User ohne login erstellen
+
 ```
 $ sudo adduser <user> --shell /usr/sbin/nologin
 ```
@@ -390,11 +444,13 @@ $ sudo adduser <user> --disable-login
 ```
 
 ### Login für einen user deaktivieren
+
 ```
 $ sudo usermod <user> -s /sbin/nologin
 ```
 
-### Systemuser ohne home-Verzeichnis
+### Systemuser ohne home -Verzeichnis
+
 ```
 $ sudo adduser --system --no-create-home <user>
 ```
