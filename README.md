@@ -24,6 +24,8 @@
 
 ## cron
 
+### Syntax
+
 ```
 1     2     3     4     5    (6)   L
 |     |     |     |     |     |    |
@@ -35,6 +37,12 @@
 |     |     +--------- Tag (1 - 31)
 |     +----------- Stunde (0 - 23)
 +------------- Minute (0 - 59)
+```
+
+### Anzeigen der crontab aller user
+
+```
+$ for user in $(getent passwd | cut -f1 -d:); do echo $user; sudo crontab -u $user -l; done
 ```
 
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
@@ -289,6 +297,30 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
 
 ## Sicherheit
 
+### Zu untersuchen bei (Verdacht auf) Sicherheitsvorfall
+
+- Systemprotokolle
+  - ```/var/log/auth.log```
+  - ```/var/log/syslog```
+  - ```/var/log/kern.log```
+  - ```/var/log/dmesg```
+- Dateisystem
+  - ```/etc/fstab``` 
+  - ```/tmp```
+  - ```/home```
+  - ```/var```
+  - ```/root```
+- Benutzerkonten
+  - ```/etc/passwd```
+  - ```/etc/group```
+  - ```/etc/sudoers```
+- Software
+  - ```/usr/bin```
+  - ```/usr/lib```
+  - ```/etc/apt```
+- Firewall
+  - ```/etc/iptables```  
+
 ### Lynis
 
 Mit Lynis kann man ein IT-Sicherheitsaudit durchführen.
@@ -370,7 +402,7 @@ $ sudo swapon --show
 ### Nur Prozesse eines user anzeigen
 ```[U]```
 
-### Sortierung nach Speichervverbrauch
+### Sortierung nach Speicherverbrauch
 ```[SHIFT]``` + ```[M]```
 
 ### Sortierung nach CPU-Last
@@ -431,7 +463,7 @@ System ein Benutzer mit Standarteinstellungen hinzugefügt.
 $ sudo usermod -aG sudo <user>
 ```
 
-### User ohne login erstellen
+### user ohne Login erstellen
 
 ```
 $ sudo adduser <user> --shell /usr/sbin/nologin
