@@ -67,7 +67,7 @@ $ find /path/to/dir -type -f -name file-to-search
 ### Ausführen eines Befehls auf alle Verzeichnisse
 
 ```
-$ find /path/to/dir -type d -exec <command> {} +
+$ find /path/to/dir -type d -exec [BEFEHL] {} +
 ```
 #### Beispiel
 
@@ -77,7 +77,7 @@ $ find /path/to/dir -type d -exec chmod 755 {} +
 
 ### Ausführen eines Befehls auf alle Dateien
 ```
-$ find /path/to/dir -type f -exec <command> {} +
+$ find /path/to/dir -type f -exec [BEFEHL] {} +
 ```
 #### Beispiel
 
@@ -131,22 +131,22 @@ bei großen Dateien vorzuziehen.
 #### Öffentliche Schlüssel
 
 ```
-$ gpg --output public.pgp --armor --export <Schlüssel ID>
+$ gpg --output public.pgp --armor --export [SCHLÜSSEL ID]
 ```
 
 #### Privater Schlüssel
 
 ```
-$ gpg --output public.pgp --armor --export-secret-key <Schlüssel ID>
+$ gpg --output public.pgp --armor --export-secret-key [SCHLÜSSEL ID]]
 ```
 
 ### Schlüssel importieren
 
 1. ```
-   $ gpg --import <Schlüsseldatei>
+   $ gpg --import [SCHLÜSSELDATEI]
    ```
 1. ```
-   $ gpg --edit-key <Schlüssel ID>
+   $ gpg --edit-key [SCHLÜSSEL ID]]
    ```
 1. ```
    > trust
@@ -158,19 +158,19 @@ $ gpg --output public.pgp --armor --export-secret-key <Schlüssel ID>
 ### Verschlüsselungen von Dateien
 
 ```
-$ gpg --encrypt --armor --recipient <id, mail oder 'name'> <Datei>
+$ gpg --encrypt --armor --recipient [ID | MAIL | 'NAME'] [Datei]
 ```
 
 ### Entschlüsseln
 
 ```
-$ gpg --decrypt <Datei>
+$ gpg --decrypt [DATEI]
 ```
 
 ### Ausgabe in Datei schreiben
 
 ```
-$ gpg --decrypt --output <Ausgabedatei> <cerschlüsselte Datei>
+$ gpg --decrypt --output [AUSGABEDATEI] [VERSCHLÜSSELTE DATEI]
 ```
 
 ### Schlüssel löschen
@@ -178,12 +178,12 @@ $ gpg --decrypt --output <Ausgabedatei> <cerschlüsselte Datei>
 #### Öffentlicher Schlüssel
 
 ```
-$ gpg --delete-key <Schlüssel ID>
+$ gpg --delete-key [SCHLÜSSEL ID]
 ```
 #### Privater Schlüssel
 
 ```
-$ gpg --delete-secret-key <Schlüssel ID>
+$ gpg --delete-secret-key [SCHLÜSSEL ID]
 ```
 
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
@@ -195,7 +195,7 @@ $ gpg --delete-secret-key <Schlüssel ID>
 #### Temporär
 
 ```
-$ sudo mount -type <filesystem> <Quelle> <Verzeichnis> 
+$ sudo mount -type [FILESYSTEM] [QUELLE] [VERZEICHNIS] 
 ```
 
 ##### Beispiel
@@ -273,15 +273,9 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
 ## Netzwerk
 
 ### Netwrok Interface Einschalten, Ausschalten und Neustarten
-- ```
-  $ sudo /etc/init.d/networking start
-  ```
-- ```
-  $ sudo /etc/init.d/networking stop
-  ```
-- ```
-  $ sudo /etc/init.d/networking restart
-  ```
+```
+$ sudo systemctl [start|stop|restart|status] systemd-networkd.service
+```
 
 ### Ein bestimmtes network interface ein- und ausschalten
 
@@ -334,7 +328,7 @@ $ sudo apt install lynis
 #### Audit durchführen
 
 ```
-$ sudo lynis audit system --auditor "<dein Name>" --pentest --forensics
+$ sudo lynis audit system --auditor "[DEIN NAME]" --pentest --forensics
 ```
 
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
@@ -397,19 +391,19 @@ $ sudo swapon --show
 ## top
 
 ### Ein Signal an einen Prozess senden (KILL ist default, 9 für hartnäckige Fälle)
-```[K]```
+```< K >```
 
 ### Nur Prozesse eines user anzeigen
-```[U]```
+```< U >```
 
 ### Sortierung nach Speicherverbrauch
-```[SHIFT]``` + ```[M]```
+```< SHIFT >``` + ```< M >```
 
 ### Sortierung nach CPU-Last
-```[SHIFT]``` + ```[P]```
+```< SHIFT >``` + ```< P >```
 
 ### Aktuelle Optionsauswahl in eine Konfigurationsdatei (```~/.toprc```) schreiben
-```[SHIFT]``` + ```[w]```
+```< SHIFT >``` + ```< w >```
 
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
 
@@ -447,7 +441,7 @@ $ w
 
 ### Passwortstatus für ein Konto prüfen
 ```
-$ sudo passwd -S <user>
+$ sudo passwd -S [USER]
 ```
 
 ### useradd vs adduser
@@ -460,61 +454,61 @@ System ein Benutzer mit Standarteinstellungen hinzugefügt.
 
 ### user einer group hinzufügen z. B. sudo
 ```
-$ sudo usermod -aG sudo <user>
+$ sudo usermod -aG sudo [USER]
 ```
 
 ### user ohne Login erstellen
 
 ```
-$ sudo adduser <user> --shell /usr/sbin/nologin
+$ sudo adduser [USER] --shell /usr/sbin/nologin
 ```
 
 oder
 
 ```
-$ sudo adduser <user> --disable-login
+$ sudo adduser [USER] --disable-login
 ```
 
 ### Login für einen user deaktivieren
 
 ```
-$ sudo usermod <user> -s /sbin/nologin
+$ sudo usermod [USER] -s /sbin/nologin
 ```
 
 ### Systemuser ohne home -Verzeichnis
 
 ```
-$ sudo adduser --system --no-create-home <user>
+$ sudo adduser --system --no-create-home [USER]
 ```
 
 ### home-Verzeichnis eines user ändern
 ```
-$ sudo usermod -d /NewHome/user <user>
+$ sudo usermod -d /NewHome/user [USER]
 ```
 
 ### user löschen
 ```
-$ sudo usermod -d /NewHome/user <user>
+$ sudo usermod -d /NewHome/user [USER]
 ```
 
 ### user mit home-Verzeichnis löschen
 ```
-$ sudo deluser --remove-home <user>
+$ sudo deluser --remove-home [USER]
 ```
 
 ### Alle Dateien eines user löschen
 ```
-$ sudo deluser --remove-all-files <user>
+$ sudo deluser --remove-all-files [USER]
 ```
 
 ### Lock Account
 ```
-$ sudo passwd -l <user>
+$ sudo passwd -l [USER]
 ```
 
 ### Unlock Account
 ```
-$ sudo passwd -u <user>
+$ sudo passwd -u [USER]
 ```
 
 *[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)*
