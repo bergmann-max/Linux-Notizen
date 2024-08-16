@@ -12,7 +12,7 @@
 - [find](#find)
 - [GnuPG](#gnupg)
 - [Laufwerke](#laufwerke)
-- [Locical Volume Manager](#locical-volume-manager)
+- [Logical Volume Manager](#logical-volume-manager)
 - [Netzwerk](#netzwerk)
 - [Sicherheit](#sicherheit)
 - [SSH](#ssh)
@@ -68,7 +68,7 @@ $ find /path/to/dir -type f -name file-to-search
 ### Ausführen eines Befehls auf alle Verzeichnisse
 
 ```
-$ find /path/to/dir -type d -exec [BEFEHL] {} +
+$ find /path/to/dir -type f -exec chmod g-x {} +
 ```
 
 #### Beispiel
@@ -93,7 +93,7 @@ _[⬆️ Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)_
 
 ## GnuPG
 
-### Schlüsselpar erstellen
+### Schlüsselpaar erstellen
 
 ```
 $ gpg --full-generate-key
@@ -145,7 +145,7 @@ $ gpg --output public.pgp --armor --export [SCHLÜSSEL ID]
 #### Privater Schlüssel
 
 ```
-$ gpg --output public.pgp --armor --export-secret-key [SCHLÜSSEL ID]]
+$ gpg --output public.pgp --armor --export-secret-key [SCHLÜSSEL ID]
 ```
 
 ### Schlüssel importieren
@@ -154,7 +154,7 @@ $ gpg --output public.pgp --armor --export-secret-key [SCHLÜSSEL ID]]
    $ gpg --import [SCHLÜSSELDATEI]
    ```
 1. ```
-   $ gpg --edit-key [SCHLÜSSEL ID]]
+   $ gpg --edit-key [SCHLÜSSEL ID]
    ```
 1. ```
    > trust
@@ -223,12 +223,12 @@ $ sudo mount -type ext4 /dev/sdb1 /mnt/data
 
 _[⬆️ Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)_
 
-## Locical Volume Manager
+## Logical Volume Manager
 
 ### Logical volume einhängen
 
 1. ```
-   $ sudo vgsacn --mknodes
+   $ sudo vgscan --mknodes
    ```
 1. ```
    $ sudo vgchange -ay
@@ -271,7 +271,7 @@ _[⬆️ Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)_
    ```
 1. _/etc/fstab_
    ```
-   //windows/server  /path/to/mountponit     cifs    uid=0,credentials=/root.smb,iocharset=utf8,vers=3.0,noperm 0 0
+   //windows/server  /path/to/mountponit     cifs    uid=0,credentials=/root/.smb,iocharset=utf8,vers=3.0,noperm 0 0
    ```
 1. ```
       $ sudo mount -a
@@ -280,7 +280,7 @@ _[⬆️ Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)_
 
 ## Netzwerk
 
-### Netwrok Interface Einschalten, Ausschalten und Neustarten
+### Network Interface Einschalten, Ausschalten und Neustarten
 
 ```
 $ sudo systemctl [start|stop|restart|status] systemd-networkd.service
@@ -352,7 +352,7 @@ $ ssh-keygen -t ed25519 -a 100
 oder
 
 ```
-$ ssh-keygen -t -b 4096 -a 100
+$ ssh-keygen -t rsa -b 4096 -a 100
 ```
 
 ### Öffentlichen Schlüssel auf Server kopieren
@@ -451,7 +451,7 @@ _[⬆️ Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)_
 
 ## User und groups
 
-### Zeige alle alle angemdeldeten user
+### Zeige alle angemeldeten User
 
 ```
 $ who
@@ -471,19 +471,19 @@ $ sudo passwd -S [USER]
 
 ### useradd vs adduser
 
-Der Befehl `useradd` ist eine niederigere Stufe und auf allen Linux-
+Der Befehl `useradd` ist eine niedrigere Stufe und auf allen Linux-
 Distributionen verfügbar. Er fordert zusätzliche Parameter, um das Konto
 vollständig einzurichten. Der Befehl `adduser` ist eine höhere Stufe und
 nicht auf allen Linux-Distributionen verfügbar. Mit diesem Befehl wird dem
-System ein Benutzer mit Standarteinstellungen hinzugefügt.
+System ein Benutzer mit Standardeinstellungen hinzugefügt.
 
-### user einer group hinzufügen z. B. sudo
+### User einer Group hinzufügen z. B. sudo
 
 ```
 $ sudo usermod -aG sudo [USER]
 ```
 
-### user ohne Login erstellen
+### User ohne Login erstellen
 
 ```
 $ sudo adduser [USER] --shell /usr/sbin/nologin
@@ -495,31 +495,31 @@ oder
 $ sudo adduser [USER] --disable-login
 ```
 
-### Login für einen user deaktivieren
+### Login für einen User deaktivieren
 
 ```
 $ sudo usermod [USER] -s /sbin/nologin
 ```
 
-### Systemuser ohne home -Verzeichnis
+### Systemuser ohne Home-Verzeichnis
 
 ```
 $ sudo adduser --system --no-create-home [USER]
 ```
 
-### home-Verzeichnis eines user ändern
+### Home-Verzeichnis eines User ändern
 
 ```
 $ sudo usermod -d /NewHome/user [USER]
 ```
 
-### user löschen
+### User löschen
 
 ```
-$ sudo usermod -d /NewHome/user [USER]
+$ sudo deluser [USER]
 ```
 
-### user mit home-Verzeichnis löschen
+### User mit home-Verzeichnis löschen
 
 ```
 $ sudo deluser --remove-home [USER]
